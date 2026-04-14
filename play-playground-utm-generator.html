@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play Playground UTM Generator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --border: #334155;
+      --success: #22c55e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.1;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 24px;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #062033;
+    }
+
+    .secondary {
+      background: #243244;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .output {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 14px;
+      background: #0b1220;
+      border: 1px solid var(--border);
+    }
+
+    .output h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .url-box {
+      word-break: break-all;
+      font-family: "Courier New", monospace;
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 54px;
+      color: #dbeafe;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .toast {
+      margin-top: 12px;
+      color: var(--success);
+      font-weight: 700;
+      display: none;
+    }
+
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 26px; }
+      body { padding: 16px; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Play Playground UTM Generator</h1>
+      <p class="sub">Use this one-page tool to build clean tracking links for partnerships, QR codes, paid ads, hotel placements, and campaigns.</p>
+
+      <div class="grid">
+        <div class="full">
+          <label for="baseUrl">Base URL</label>
+          <input id="baseUrl" type="url" placeholder="https://playplayground.com/tickets" />
+        </div>
+
+        <div>
+          <label for="source">utm_source</label>
+          <input id="source" type="text" placeholder="luxor" />
+        </div>
+
+        <div>
+          <label for="medium">utm_medium</label>
+          <input id="medium" type="text" placeholder="qr" />
+        </div>
+
+        <div>
+          <label for="campaign">utm_campaign</label>
+          <input id="campaign" type="text" placeholder="summer-2026" />
+        </div>
+
+        <div>
+          <label for="content">utm_content</label>
+          <input id="content" type="text" placeholder="room-key-card" />
+        </div>
+
+        <div>
+          <label for="term">utm_term</label>
+          <input id="term" type="text" placeholder="optional" />
+        </div>
+
+        <div>
+          <label for="promo">Promo Code</label>
+          <input id="promo" type="text" placeholder="optional backup code like DOGS10" />
+        </div>
+
+        <div class="full">
+          <label for="notes">Internal Notes</label>
+          <textarea id="notes" rows="3" placeholder="Optional notes for the asset or placement"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="generateUrl()">Generate URL</button>
+        <button class="secondary" onclick="copyUrl()">Copy URL</button>
+        <button class="secondary" onclick="resetForm()">Reset</button>
+      </div>
+
+      <div class="output">
+        <h2>Generated Tracking URL</h2>
+        <div id="outputUrl" class="url-box"></div>
+        <div id="toast" class="toast">Copied to clipboard.</div>
+        <div class="small">
+          Naming rule: keep values lowercase, use dashes instead of spaces, and make each QR code or link unique to the placement.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function slugify(value) {
+      return (value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9\s-_]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+    }
+
+    function generateUrl() {
+      const baseUrl = document.getElementById("baseUrl").value.trim();
+      const source = slugify(document.getElementById("source").value);
+      const medium = slugify(document.getElementById("medium").value);
+      const campaign = slugify(document.getElementById("campaign").value);
+      const content = slugify(document.getElementById("content").value);
+      const term = slugify(document.getElementById("term").value);
+      const promo = slugify(document.getElementById("promo").value);
+
+      if (!baseUrl) {
+        document.getElementById("outputUrl").textContent = "Please enter a base URL first.";
+        return;
+      }
+
+      let url;
+      try {
+        url = new URL(baseUrl);
+      } catch (e) {
+        document.getElementById("outputUrl").textContent = "That base URL does not look valid.";
+        return;
+      }
+
+      if (source) url.searchParams.set("utm_source", source);
+      if (medium) url.searchParams.set("utm_medium", medium);
+      if (campaign) url.searchParams.set("utm_campaign", campaign);
+      if (content) url.searchParams.set("utm_content", content);
+      if (term) url.searchParams.set("utm_term", term);
+      if (promo) url.searchParams.set("promo", promo);
+
+      document.getElementById("outputUrl").textContent = url.toString();
+      document.getElementById("toast").style.display = "none";
+    }
+
+    async function copyUrl() {
+      const text = document.getElementById("outputUrl").textContent.trim();
+      if (!text || text.startsWith("Please enter") || text.startsWith("That base URL")) return;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        document.getElementById("toast").style.display = "block";
+      } catch (e) {
+        document.getElementById("toast").textContent = "Clipboard copy not supported here.";
+        document.getElementById("toast").style.display = "block";
+      }
+    }
+
+    function resetForm() {
+      document.getElementById("baseUrl").value = "";
+      document.getElementById("source").value = "";
+      document.getElementById("medium").value = "";
+      document.getElementById("campaign").value = "";
+      document.getElementById("content").value = "";
+      document.getElementById("term").value = "";
+      document.getElementById("promo").value = "";
+      document.getElementById("notes").value = "";
+      document.getElementById("outputUrl").textContent = "";
+      document.getElementById("toast").style.display = "none";
+    }
+  </script>
+</body>
+</html>
