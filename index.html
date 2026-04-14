@@ -190,29 +190,47 @@
         </div>
 
         <div>
-          <label for="medium">utm_medium</label>
-          <input id="medium" type="text" placeholder="qr" />
+         <label for="medium">utm_medium</label>
+<select id="medium">
+  <option value="">Select medium</option>
+  <option value="paid">Paid</option>
+  <option value="organic">Organic</option>
+  <option value="print">Print</option>
+  <option value="digital">Digital</option>
+</select>
         </div>
 
         <div>
-          <label for="campaign">utm_campaign</label>
+          <label for="campaign">utm campaign name</label>
           <input id="campaign" type="text" placeholder="summer-2026" />
         </div>
 
         <div>
-          <label for="content">utm_content</label>
-          <input id="content" type="text" placeholder="room-key-card" />
-        </div>
+          <label for="term">utm_term (Timeframe)</label>
+<select id="term">
+  <option value="">Select timeframe</option>
 
-        <div>
-          <label for="term">utm_term</label>
-          <input id="term" type="text" placeholder="optional" />
-        </div>
+  <!-- Months -->
+  <option value="january-2026">January 2026</option>
+  <option value="february-2026">February 2026</option>
+  <option value="march-2026">March 2026</option>
+  <option value="april-2026">April 2026</option>
+  <option value="may-2026">May 2026</option>
+  <option value="june-2026">June 2026</option>
+  <option value="july-2026">July 2026</option>
+  <option value="august-2026">August 2026</option>
+  <option value="september-2026">September 2026</option>
+  <option value="october-2026">October 2026</option>
+  <option value="november-2026">November 2026</option>
+  <option value="december-2026">December 2026</option>
 
-        <div>
-          <label for="promo">Promo Code</label>
-          <input id="promo" type="text" placeholder="optional backup code like DOGS10" />
-        </div>
+  <!-- Quarters -->
+  <option value="q1-2026">Q1 2026</option>
+  <option value="q2-2026">Q2 2026</option>
+  <option value="q3-2026">Q3 2026</option>
+  <option value="q4-2026">Q4 2026</option>
+</select>
+          </div>
 
         <div class="full">
           <label for="notes">Internal Notes</label>
