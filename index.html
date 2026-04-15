@@ -318,51 +318,6 @@
     document.getElementById("toast").style.display = "none";
   }
 
-
-      let url;
-      try {
-        url = new URL(baseUrl);
-      } catch (e) {
-        document.getElementById("outputUrl").textContent = "That base URL does not look valid.";
-        return;
-      }
-
-      if (source) url.searchParams.set("utm_source", source);
-      if (medium) url.searchParams.set("utm_medium", medium);
-      if (campaign) url.searchParams.set("utm_campaign", campaign);
-      if (content) url.searchParams.set("utm_content", content);
-      if (term) url.searchParams.set("utm_term", term);
-      if (promo) url.searchParams.set("promo", promo);
-
-      document.getElementById("outputUrl").textContent = url.toString();
-      document.getElementById("toast").style.display = "none";
-    }
-
-    async function copyUrl() {
-      const text = document.getElementById("outputUrl").textContent.trim();
-      if (!text || text.startsWith("Please enter") || text.startsWith("That base URL")) return;
-
-      try {
-        await navigator.clipboard.writeText(text);
-        document.getElementById("toast").style.display = "block";
-      } catch (e) {
-        document.getElementById("toast").textContent = "Clipboard copy not supported here.";
-        document.getElementById("toast").style.display = "block";
-      }
-    }
-
-    function resetForm() {
-      document.getElementById("baseUrl").value = "";
-      document.getElementById("source").value = "";
-      document.getElementById("medium").value = "";
-      document.getElementById("campaign").value = "";
-      document.getElementById("content").value = "";
-      document.getElementById("term").value = "";
-      document.getElementById("promo").value = "";
-      document.getElementById("notes").value = "";
-      document.getElementById("outputUrl").textContent = "";
-      document.getElementById("toast").style.display = "none";
-    }
   </script>
 </body>
 </html>
