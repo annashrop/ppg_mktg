@@ -261,29 +261,40 @@
   </div>
 
   <script>
-    function slugify(value) {
-      return (value || "")
-        .trim()
-        .toLowerCase()
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9\s-_]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-");
-    }
+function slugify(value) {
+  return (value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+}
 
-    function generateUrl() {
-      const baseUrl = document.getElementById("baseUrl").value.trim();
-      const source = slugify(document.getElementById("source").value);
-      const medium = slugify(document.getElementById("medium").value);
-      const campaign = slugify(document.getElementById("campaign").value);
-      const content = slugify(document.getElementById("content").value);
-      const term = slugify(document.getElementById("term").value);
-      const promo = slugify(document.getElementById("promo").value);
+function generateUrl() {
+  const baseUrl = document.getElementById("baseUrl").value;
+  const source = slugify(document.getElementById("source").value);
+  const medium = slugify(document.getElementById("medium").value);
+  const campaign = slugify(document.getElementById("campaign").value);
+  const content = slugify(document.getElementById("content").value);
+  const term = slugify(document.getElementById("term").value);
 
-      if (!baseUrl) {
-        document.getElementById("outputUrl").textContent = "Please enter a base URL first.";
-        return;
-      }
+  if (!baseUrl) {
+    alert("Please select a base URL");
+    return;
+  }
+
+  let url = baseUrl + "?";
+
+  if (source) url += `utm_source=${source}&`;
+  if (medium) url += `utm_medium=${medium}&`;
+  if (campaign) url += `utm_campaign=${campaign}&`;
+  if (content) url += `utm_content=${content}&`;
+  if (term) url += `utm_term=${term}&`;
+
+  // remove trailing &
+  url = url.slice(0, -1);
+
+  document.getElementById("outputUrl").innerText = url;
+}
+</script>
 
       let url;
       try {
