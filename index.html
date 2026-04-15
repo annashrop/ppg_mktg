@@ -260,40 +260,63 @@
     </div>
   </div>
 
-  <script>
-function slugify(value) {
-  return (value || "")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-");
-}
-
-function generateUrl() {
-  const baseUrl = document.getElementById("baseUrl").value;
-  const source = slugify(document.getElementById("source").value);
-  const medium = slugify(document.getElementById("medium").value);
-  const campaign = slugify(document.getElementById("campaign").value);
-  const content = slugify(document.getElementById("content").value);
-  const term = slugify(document.getElementById("term").value);
-
-  if (!baseUrl) {
-    alert("Please select a base URL");
-    return;
+<script>
+  function slugify(value) {
+    return (value || "")
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-");
   }
 
-  let url = baseUrl + "?";
+  function generateUrl() {
+    const baseUrl = document.getElementById("baseUrl").value;
+    const source = slugify(document.getElementById("source").value);
+    const medium = slugify(document.getElementById("medium").value);
+    const campaign = slugify(document.getElementById("campaign").value);
+    const term = slugify(document.getElementById("term").value);
 
-  if (source) url += `utm_source=${source}&`;
-  if (medium) url += `utm_medium=${medium}&`;
-  if (campaign) url += `utm_campaign=${campaign}&`;
-  if (content) url += `utm_content=${content}&`;
-  if (term) url += `utm_term=${term}&`;
+    if (!baseUrl) {
+      document.getElementById("outputUrl").textContent = "Please select a base URL.";
+      document.getElementById("toast").style.display = "none";
+      return;
+    }
 
-  // remove trailing &
-  url = url.slice(0, -1);
+    const url = new URL(baseUrl);
 
-  document.getElementById("outputUrl").innerText = url;
-}
+    if (source) url.searchParams.set("utm_source", source);
+    if (medium) url.searchParams.set("utm_medium", medium);
+    if (campaign) url.searchParams.set("utm_campaign", campaign);
+    if (term) url.searchParams.set("utm_term", term);
+
+    document.getElementById("outputUrl").textContent = url.toString();
+    document.getElementById("toast").style.display = "none";
+  }
+
+  async function copyUrl() {
+    const text = document.getElementById("outputUrl").textContent.trim();
+
+    if (!text || text.startsWith("Please select")) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      document.getElementById("toast").textContent = "Copied to clipboard.";
+      document.getElementById("toast").style.display = "block";
+    } catch (e) {
+      document.getElementById("toast").textContent = "Clipboard copy not supported here.";
+      document.getElementById("toast").style.display = "block";
+    }
+  }
+
+  function resetForm() {
+    document.getElementById("baseUrl").value = "";
+    document.getElementById("source").value = "";
+    document.getElementById("medium").value = "";
+    document.getElementById("campaign").value = "";
+    document.getElementById("term").value = "";
+    document.getElementById("notes").value = "";
+    document.getElementById("outputUrl").textContent = "";
+    document.getElementById("toast").style.display = "none";
+  }
 </script>
 
       let url;
